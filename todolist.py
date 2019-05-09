@@ -26,7 +26,8 @@ def show_list():
 @app.route("/add", methods=['POST'])
 def add_entry():
     requests.post(TODO_API_URL+"/api/items", json={
-                  "what_to_do": request.form['what_to_do'], "due_date": request.form['due_date']})
+                  "what_to_do": request.form['what_to_do'], "due_date": request.form['due_date'],
+                  "location":request.form['location],"invities":request.form['invities']})
     return redirect(url_for('show_list'))
 
 
