@@ -21,7 +21,8 @@ def get_items():
     db = get_db()
     cur = db.execute('SELECT what_to_do, due_date, status FROM entries')
     entries = cur.fetchall()
-    tdlist = [dict(what_to_do=row[0], due_date=row[1], status=row[2])
+    tdlist = [dict(what_to_do=row[0], due_date=row[1],location=row[2],
+                   invities=row[3],status=row[4])
               for row in entries]
     response = Response(json.dumps(tdlist),  mimetype='application/json')
     return response
@@ -31,7 +32,7 @@ def get_items():
 def add_item():
     db = get_db()
     db.execute('insert into entries (what_to_do, due_date) values (?, ?)',
-               [request.json['what_to_do'], request.json['due_date']])
+               [request.json['what_to_do'], request.json['due_date'],request.json['location],request.jason['invities']])
     db.commit()
     return jsonify({"result": True})
 
