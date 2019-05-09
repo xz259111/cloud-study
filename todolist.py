@@ -10,15 +10,18 @@ import requests  # similar purpose to urllib.request, just more convenience
 import os
 
 app = Flask(__name__)
-TODO_API_URL = "http://"+34.83.175.183+":5001"
+TODO_API_URL = "http://34.83.175.183:5001"
 
 
 @app.route("/")
 def show_list():
-    resp = requests.get(TODO_API_URL+"/api/items")
-    resp = resp.json()
+    try:
+        r = requests.get(TODO_API_URL)
+        json_dict = json.loads(json.dumps(r.json()))
+        return render_template('index.html', todolist = json_dict)
+    except:
+        raise ApiError('GET /items/ {}'.format(r.statue_code))
     return render_template('index.html', todolist=resp)
-
 
 @app.route("/add", methods=['POST'])
 def add_entry():
@@ -42,7 +45,7 @@ def mark_as_done(item):
 
 
 if __name__ == "__main__":
-    app.run("0.0.0.0")
+    app.run("0.0.0.0",port = 5001)
 
 
 # In[ ]:
